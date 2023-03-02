@@ -1,0 +1,65 @@
+@use "../clearfix";
+@use "../variables";
+
+body{
+  background-color: variables.$antiflash-white;
+  color: variables.$space-cadet;
+}
+.template-wrapper{
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  .template-image{
+    width: 75%;
+    max-width: 300px;
+    min-width: 200px;
+    height: auto;
+  }
+  .template-title{
+    text-transform: capitalize;
+    font-weight: 400;
+  }
+
+  .template-description{
+    width: 50%;
+    max-width: 512px;
+    min-width: 250px;
+
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+
+    .template-text{
+      text-align: justify;
+
+      &::first-letter{
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+
+      code{
+        padding: .1rem .25rem;
+        display: inline-block;
+        background-color: variables.$cool-gray;
+        color: variables.$antiflash-white;
+      }
+
+      .cta{
+        width: fit-content;
+        padding: .25rem 1rem;
+        margin: 0 auto;
+
+        display: block;
+
+        border-radius: 1rem;
+        background-color: variables.$space-cadet;
+        color: variables.$antiflash-white;
+      }
+    }
+  }
+}

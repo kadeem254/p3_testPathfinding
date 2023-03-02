@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> <%= htmlWebpackPlugin.options.title %> </title>
+</head>
+<body>
+  
+  <div class="template-wrapper">
+
+    <img width="512px" height="512px" src="<%= require('../assets/work-in-progress.png') %>" alt="" class="template-image">
+    <h1 class="template-title">Basic webpack template</h1>
+    <div class="template-description">
+      <p class="template-text">
+        This is a basic web template meant to ease creation of new projects
+        that require webpack, in the form i find myself generating most of 
+        the times.
+      </p>
+      <p class="template-text">
+        Once cloned the needed libraries should easily be set by use of the
+        command.
+        <code>npm install</code>
+        That will generate the node modules required. To easily test out if
+        the template is functioning the 'build' command specified in the
+        <em>'package.json'</em> file can be run using the command.
+        <code>npm run build</code>
+      </p>
+      <p class="template-text">
+        <a class="cta" href="https://www.flaticon.com/free-icons/work-in-progress" title="work in progress icons">Work in progress icons created by Freepik - Flaticon</a>
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
