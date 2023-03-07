@@ -1,6 +1,7 @@
-const PATH = require("path");
-const MINI_CSS_EXTRACT_PLUGIN = require("mini-css-extract-plugin");
-const HTML_WEBPACK_PLUGIN = require("html-webpack-plugin");
+const Path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -12,7 +13,7 @@ module.exports = {
   },
 
   output: {
-    path: PATH.resolve( __dirname, "build" ),
+    path: Path.resolve( __dirname, "build" ),
     clean: true,
   },
 
@@ -25,6 +26,15 @@ module.exports = {
 
   module: {
     rules: [
+      // css
+      {
+        test: /\.css$/i,
+        use: [
+          MINI_CSS_EXTRACT_PLUGIN.loader,
+          "css-loader",
+          "sass-loader"
+        ],
+      },
       // scss
       {
         test: /\.s(a|c)ss$/i,
@@ -41,16 +51,27 @@ module.exports = {
         generator:{
           filename: "images/[contenthash][ext]"
         }
+      },
+      // fonts
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator:{
+          filename: "fonts/[name][ext]"
+        }
       }
     ]
   },
 
   plugins: [
-    new HTML_WEBPACK_PLUGIN({
+    new HtmlWebpackPlugin({
       template: "./src/htmlTemplates/index.html",
       filename: "index.html",
       title: "WEB TEMPLATE 001"
     }),
-    new MINI_CSS_EXTRACT_PLUGIN({})
+    new RemoveEmptyScriptsPlugin(),
+    new MiniCssExtractPlugin({
+        filename: '[name].[chunkhash:8].css',
+    }),
   ]
 }
