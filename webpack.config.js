@@ -30,7 +30,7 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [
-          MINI_CSS_EXTRACT_PLUGIN.loader,
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader"
         ],
@@ -39,7 +39,7 @@ module.exports = {
       {
         test: /\.s(a|c)ss$/i,
         use: [
-          MINI_CSS_EXTRACT_PLUGIN.loader,
+          MiniCssExtractPlugin.loader,
           "css-loader",
           "sass-loader"
         ],
