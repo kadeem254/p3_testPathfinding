@@ -8,7 +8,9 @@ export const SceneKeys = {
 }
 
 export const TextureKeys = {
-  tileset: "default_tileset"
+  tileset: "default_tileset",
+  survivor: "survivor",
+  zombie: "zombie"
 }
 
 export const TilemapKeys = {
@@ -25,5 +27,12 @@ export const TileSize = {
 }
 
 export const Player = {
-  speed: 128
+  speed: 256
+}
+
+export const Enemy = {
+  speed: {
+    0: 64,
+    1: 128
+  }
 }
