@@ -21,10 +21,13 @@ export default class TestLevel extends Phaser.Scene{
 
     // VISUAL LAYERS
     this.createTilemap();
+    this.createNavmesh();
     this.createPlayer();
+    this.createTestObject();
 
     // INTERACTIONS
     this.defineCollisions();
+    this.defineTouchAndClickInteractions();
 
     return;
   }
@@ -89,6 +92,58 @@ export default class TestLevel extends Phaser.Scene{
     return;
   }
 
+  /*######## CREATE NAVMESH ######### */
+  /**Create the navmesh using the tilemap */
+  createNavmesh(){
+
+    let drawMesh = true;
+    let spacing = 10;
+
+    this.nav_testLevel = this.navMeshPlugin.buildMeshFromTilemap(
+      "test_level_navmesh",
+      this.map_testLevel,
+      [this.tileLayer_walls],
+      ( tile ) => {
+        return !tile.collides;
+      },
+      spacing
+    )
+
+    // draw navmesh level
+    this.nav_testLevel.enableDebug();
+
+    // draw navmesh
+    if( drawMesh ){
+
+      this.nav_testLevel.debugDrawMesh({
+        drawCentroid: true,
+        drawBounds: false,
+        drawNeighbors: true,
+        drawPortals: true
+      });
+
+    }
+
+    return;
+  }
+  
+  /*######## CREATE TEST OBJECT FOR PATH FINDING ######### */
+  createTestObject(){
+    this.obj_target = this.add.rectangle(
+      0, 0, 16, 16, 0xffffff
+    );
+
+    this.tweens.add({
+      targets: [this.obj_target],
+      yoyo: true,
+      repeat: -1,
+      scale: 1.75,
+      duration: 750
+    })
+
+    return;
+  }
+
   /*######## DEFINE COLLISIONS ######### */
   defineCollisions(){
 
@@ -98,7 +153,17 @@ export default class TestLevel extends Phaser.Scene{
     return;
   }
 
-  /*######## DEFINE COLLISIONS ######### */
+  /*######## CREATE TOUCH | CLICK INTERACTIONS ######### */
+  defineTouchAndClickInteractions(){
+
+    this.input.on(
+      "pointerdown", this.__scenePointerDownHandler, this
+    )
+
+    return;
+  }
+
+  /*######## MOVE PLAYER ######### */
   __movePlayer(){
     // normalize direction vector
     let vector = this.__playerActions.move.normalize();
@@ -107,6 +172,12 @@ export default class TestLevel extends Phaser.Scene{
       vector.x * GLB.Player.speed,
       vector.y * GLB.Player.speed
     )
+    return;
+  }
+  
+  /*######## MOVE TARGET ######### */
+  __moveTarget(x, y){
+    this.obj_target.setPosition( x, y );
     return;
   }
 
@@ -146,6 +217,26 @@ export default class TestLevel extends Phaser.Scene{
 
     // call the move player function
     this.__movePlayer();
+
+
+    return;
+  }
+
+  __scenePointerDownHandler( pointer ){
+    // move the target to the click location
+    this.__moveTarget( pointer.x, pointer.y );
+
+    // clear current navmesh debug
+    this.nav_testLevel.debugDrawClear();
+
+    // find path between the player and target
+    // and draw it out
+    const path = this.nav_testLevel.findPath(
+      this.obj_player, this.obj_target
+    );
+    if( path != null ){
+      this.nav_testLevel.debugDrawPath(path, 0xffd900);
+    }
 
 
     return;

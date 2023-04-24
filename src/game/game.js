@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import TestLevel from "./scenes/testLevel";
 import * as GLB from "./variables";
+import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 export default function StartGame(){
   const game = new Phaser.Game({
@@ -21,6 +22,18 @@ export default function StartGame(){
       arcade: {
         debug: true
       }
+    },
+
+    // add plugins
+    plugins: {
+      scene: [
+        {
+          key: "PhaserNavMeshPlugin",
+          plugin: PhaserNavMeshPlugin,
+          mapping: "navMeshPlugin",
+          start: true
+        }
+      ]
     }
   })
 
