@@ -1,1 +1,3 @@
-import "./scss/pages/index.scss";
+import StartGame from "./game/game";
+
+const GAME = StartGame();
